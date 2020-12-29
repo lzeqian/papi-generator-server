@@ -1,0 +1,70 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "Function",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/user/{userId}",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "var",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35165,
+      "method": "PUT",
+      "catid": 1891,
+      "title": "上传用户照片",
+      "path": "/ums/user/{userId}",
+      "project_id": 239,
+      "req_params": [
+        {
+          "_id": "5fd9bbd963bc1eb6e430735d",
+          "name": "userId",
+          "example": "1",
+          "desc": "用户id"
+        }
+      ],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608104243,
+      "up_time": 1608104921,
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fd9bbd963bc1e55ea30735e",
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "req_body_form": [
+        {
+          "required": "1",
+          "_id": "5fd9b84c63bc1ecb2c30735a",
+          "name": "userName",
+          "type": "text",
+          "example": "zs"
+        },
+        {
+          "required": "2",
+          "_id": "5fd9bbd963bc1e182930735f",
+          "name": "userImage",
+          "type": "file"
+        }
+      ],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "req_body_other": "{\"type\":\"object\",\"title\":\"title\",\"properties\":{}}",
+      "req_body_type": "form",
+      "res_body": "{\"type\":\"object\",\"title\":\"title\",\"properties\":{}}",
+      "username": "admin"
+    }
+  ]
+}

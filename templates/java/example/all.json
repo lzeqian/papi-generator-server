@@ -1,0 +1,295 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "Function",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user/{id}",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "var",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35159,
+      "method": "GET",
+      "catid": 1891,
+      "title": "获取用户信息",
+      "path": "/ums/api/v1/user/{id}",
+      "project_id": 239,
+      "req_params": [
+        {
+          "_id": "5fdb0cf663bc1e0c513093d0",
+          "name": "id",
+          "example": "1",
+          "desc": "用户id"
+        }
+      ],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608100350,
+      "up_time": 1608191222,
+      "req_query": [
+        {
+          "required": "0",
+          "_id": "5fdb0cf663bc1e552d3093d1",
+          "name": "userName",
+          "desc": "用户名"
+        }
+      ],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdb0cf663bc1e2a623093d2",
+          "name": "Authorization",
+          "value": "sdfsfds"
+        }
+      ],
+      "req_body_form": [],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"}},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name()\"}}}}",
+      "username": "admin"
+    },
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "static",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35161,
+      "method": "POST",
+      "catid": 1891,
+      "title": "新增用户",
+      "path": "/ums/api/v1/user",
+      "project_id": 239,
+      "req_params": [],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608101320,
+      "up_time": 1608191247,
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdb0d0f63bc1eafd83093d3",
+          "name": "Content-Type",
+          "value": "application/x-www-form-urlencoded"
+        }
+      ],
+      "req_body_form": [
+        {
+          "required": "1",
+          "_id": "5fdb0d0f63bc1e2c433093d5",
+          "name": "userName",
+          "type": "text",
+          "example": "zs"
+        },
+        {
+          "required": "1",
+          "_id": "5fdb0d0f63bc1ec1573093d4",
+          "name": "userMail",
+          "type": "text",
+          "example": "lixin@126.com",
+          "desc": ""
+        }
+      ],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "req_body_type": "form",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer(0,100000)\"}},\"message\":{\"type\":\"string\"}},\"required\":[]}",
+      "username": "admin"
+    },
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user_json",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "static",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35163,
+      "method": "POST",
+      "catid": 1891,
+      "title": "新增用户_json",
+      "path": "/ums/api/v1/user_json",
+      "project_id": 239,
+      "req_params": [],
+      "res_body_type": "json",
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdb0d3263bc1e2c733093d7",
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "required": "1",
+          "_id": "5fdb0d3263bc1e568e3093d6",
+          "name": "aaa",
+          "value": "1"
+        }
+      ],
+      "req_body_form": [
+        {
+          "required": "1",
+          "_id": "5fdb0d3263bc1e6f373093d9",
+          "name": "userName",
+          "type": "text",
+          "example": "zs"
+        },
+        {
+          "required": "1",
+          "_id": "5fdb0d3263bc1ea75c3093d8",
+          "name": "userMail",
+          "type": "text",
+          "example": "lixin@126.com",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "markdown": "",
+      "req_body_type": "json",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+      "uid": 11,
+      "add_time": 1608103639,
+      "up_time": 1608191282,
+      "__v": 0,
+      "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"}},\"userMail\":{\"type\":\"string\",\"mock\":{\"mock\":\"@email\"}}}}",
+      "username": "admin"
+    },
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user/{userId}",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "var",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35165,
+      "method": "PUT",
+      "catid": 1891,
+      "title": "上传用户照片",
+      "path": "/ums/api/v1/user/{userId}",
+      "project_id": 239,
+      "req_params": [
+        {
+          "_id": "5fdb12f163bc1e739830948a",
+          "name": "userId",
+          "example": "1",
+          "desc": ""
+        }
+      ],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608104243,
+      "up_time": 1608192753,
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdb12f163bc1e44b930948b",
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "req_body_form": [
+        {
+          "required": "1",
+          "_id": "5fdb12f163bc1e19ef30948c",
+          "name": "userImage",
+          "type": "file"
+        }
+      ],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "req_body_other": "{\"type\":\"object\",\"title\":\"title\",\"properties\":{}}",
+      "req_body_type": "form",
+      "res_body": "{\"type\":\"object\",\"title\":\"title\",\"properties\":{}}",
+      "username": "admin"
+    },
+    {
+      "query_path": {
+        "path": "/ums/api/v1/users",
+        "params": []
+      },
+      "edit_uid": 0,
+      "status": "undone",
+      "type": "static",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35155,
+      "method": "GET",
+      "catid": 1891,
+      "title": "搜索用户信息",
+      "path": "/ums/api/v1/users",
+      "project_id": 239,
+      "req_params": [],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608089533,
+      "up_time": 1608191196,
+      "req_query": [
+        {
+          "required": "1",
+          "_id": "5fdb0cdc63bc1e28343093ce",
+          "name": "userName",
+          "example": "zs",
+          "desc": "用户名"
+        },
+        {
+          "required": "1",
+          "_id": "5fdb0cdc63bc1e3a273093cd",
+          "name": "userEmail",
+          "example": "zs@126.com",
+          "desc": "邮箱"
+        }
+      ],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdb0cdc63bc1e0ee83093cf",
+          "name": "Authorization",
+          "value": "56",
+          "example": "56"
+        }
+      ],
+      "req_body_form": [],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"title\":\"用户名\"},\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"},\"title\":\"用户id\"},\"userEmail\":{\"type\":\"string\",\"title\":\"邮箱\"},\"phone\":{\"type\":\"string\",\"title\":\"手机号码\"},\"materList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"materName\":{\"type\":\"string\",\"title\":\"物品名称\",\"mock\":{\"mock\":\"@name()\"}},\"materCount\":{\"type\":\"integer\",\"title\":\"物品数量\",\"mock\":{\"mock\":\"@string(number,1,10)\"}}},\"required\":[\"materName\",\"materCount\"]},\"title\":\"物品列表\"}},\"required\":[\"materList\",\"userId\"]}}",
+      "username": "admin"
+    }
+  ],
+  "catName": "拓展功能"
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "userName": {
+      "type": "string",
+      "mock": {
+        "mock": "@name"
+      },
+      "description": "用户名"
+    },
+    "userMail": {
+      "type": "string",
+      "mock": {
+        "mock": "@email"
+      },
+      "description": "用户邮件"
+    },
+    "userPhone": {
+      "type": "integer",
+      "description": "用户号码"
+    },
+    "userExe": {
+      "type": "object",
+      "properties": {
+        "userCard": {
+          "type": "string",
+          "description": "用户身份证"
+        },
+        "userPaypal": {
+          "type": "string",
+          "description": "用户paypal号码"
+        },
+        "scoreList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sname": {
+                "type": "string",
+                "description": "课程名称"
+              },
+              "score": {
+                "type": "number",
+                "description": "课程得分"
+              }
+            },
+            "required": [
+              "sname",
+              "score"
+            ],
+            "description": "得分"
+          },
+          "description": "得分列表"
+        },
+        "brotherList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "兄弟"
+          },
+          "description": "兄弟列表"
+        }
+      },
+      "description": "用户拓展信息",
+      "required": [
+        "userCard",
+        "userPaypal",
+        "scoreList",
+        "brotherList"
+      ]
+    }
+  },
+  "required": [
+    "userPhone",
+    "userExe"
+  ],
+  "description": "用户消息"
+}

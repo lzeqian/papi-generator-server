@@ -1,0 +1,61 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "FunctionController",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/user/{id}",
+        "params": []
+      },
+      "edit_uid": 11,
+      "status": "undone",
+      "type": "var",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35159,
+      "method": "GET",
+      "catid": 1891,
+      "title": "获取用户信息",
+      "path": "/ums/user/{id}",
+      "project_id": 239,
+      "req_params": [
+        {
+          "_id": "5fd9aa8963bc1e7ef03070b2",
+          "name": "id",
+          "example": "1",
+          "desc": "用户id"
+        }
+      ],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608100350,
+      "up_time": 1608100489,
+      "req_query": [
+        {
+          "required": "0",
+          "_id": "5fd9aa8963bc1e180f3070b3",
+          "name": "userName",
+          "desc": "用户名"
+        }
+      ],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fd9aa8963bc1e0e0a3070b4",
+          "name": "Authorization",
+          "value": "sdfsfds"
+        }
+      ],
+      "req_body_form": [],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"}},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name()\"}}}}",
+      "username": "admin"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{%- if "dtoName" in interface%}
+package {{param.package}}.dto;
+
+import io.swagger.annotations.*;
+import lombok.Data;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+import org.springframework.web.multipart.*;
+{{- "\n"}}
+{%- macro renderReqBody(jsonKey,json,required,layer) -%}
+     {%- if json.type=="object" %}
+        {#- 生成内部类 #}
+        {%- set tmpNs = namespace(outputProperty="") %}
+        {%- for keyName in range(0,layer)%}
+            {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
+        {%- endfor %}
+        {{- tmpNs.outputProperty+"@Data\n"}}
+        {{- tmpNs.outputProperty+"@ApiModel(value=\""+jsonKey|lower+"\",description = \""+json["description"]+"\")\n"}}
+        {{- tmpNs.outputProperty+("public " if layer==0 else "")+"class "+jsonKey|first|upper+jsonKey|substr(1)+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"Vo"+"{\n"}}
+        {%- for keyName in json.properties.keys()%}
+            {{- renderReqBody(keyName,json.properties[keyName],(keyName in json["required"] if "required" in json else False),layer+1)}}
+        {%- endfor %}
+        {{- tmpNs.outputProperty+"}\n"}}
+        {#- 生成对应字段 确定是否是数组 #}
+        {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"private List<"+jsonKey|first|upper+jsonKey|substr(1)+"ItemVo> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
+        {%- else %}
+            {%- if layer>0 %}
+                {{- tmpNs.outputProperty+"private "+jsonKey|first|upper+jsonKey|substr(1)+"Vo "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
+            {%- endif %}
+        {%- endif %}
+
+     {%- elif json.type=="array" %}
+        {%- set jsuc=json["items"]|json("objectDefine","array")%}
+        {#- 直接将数组对应的是否必填向下传递 #}
+        {{- renderReqBody(jsonKey,json["items"],required,layer+1) }}
+     {%- else  %}
+        {%- set tmpNs = namespace(outputProperty="") %}
+        {%- for keyName in range(0,layer)%}
+            {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
+        {%- endfor %}
+        {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"private List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
+        {%- else %}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"private "+json.type|typeToJavaType+" "+jsonKey+";\n"}}
+        {%- endif %}
+     {%- endif %}
+{%- endmacro %}
+
+{%- if interface.res_body %}
+    {%- if interface.res_body_type=="json" %}
+        {%- set tmpns = namespace(jsonData=interface.res_body|jsonParse) %}
+        {%- if tmpns.jsonData.type=="array" %}
+            {%- set jsuc=tmpns.jsonData.items|json("description",interface.dtoName)%}
+            {{- renderReqBody(interface.dtoName,tmpns.jsonData.items,False,0) }}
+        {%- elif tmpns.jsonData.type=="object" %}
+            {%- if tmpns.jsonData.properties.items().length()>0 %}
+                {{- renderReqBody(interface.dtoName,tmpns.jsonData,False,0) }}
+            {%- endif %}
+        {%- endif %}
+    {%- endif %}
+{%- endif %}
+
+{%- endif %}

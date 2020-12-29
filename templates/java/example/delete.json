@@ -1,0 +1,56 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "Function",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user/{id}",
+        "params": []
+      },
+      "edit_uid": 11,
+      "status": "undone",
+      "type": "var",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35185,
+      "method": "DELETE",
+      "catid": 1891,
+      "title": "删除用户",
+      "path": "/ums/api/v1/user/{id}",
+      "project_id": 239,
+      "req_params": [
+        {
+          "_id": "5fdc608063bc1e077930b455",
+          "name": "id",
+          "example": "1",
+          "desc": "用户id"
+        }
+      ],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608272192,
+      "up_time": 1608278144,
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fdc608063bc1ee32830b456",
+          "name": "Content-Type",
+          "value": "application/x-www-form-urlencoded"
+        }
+      ],
+      "req_body_form": [],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "req_body_type": "form",
+      "res_body": "{\"type\":\"integer\"}",
+      "username": "admin"
+    }
+  ],
+  "catName": "拓展功能"
+}

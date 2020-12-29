@@ -1,0 +1,72 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "Function",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/api/v1/user_json",
+        "params": []
+      },
+      "edit_uid": 11,
+      "status": "undone",
+      "type": "static",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35163,
+      "method": "POST",
+      "catid": 1891,
+      "title": "新增用户_json",
+      "path": "/ums/api/v1/user_json",
+      "project_id": 239,
+      "req_params": [],
+      "res_body_type": "json",
+      "req_query": [],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fe9872463bc1ef43031b0dc",
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "required": "1",
+          "_id": "5fe9872463bc1e5c8131b0db",
+          "name": "aaa",
+          "value": "1"
+        }
+      ],
+      "req_body_form": [
+        {
+          "required": "1",
+          "_id": "5fe9872463bc1e287231b0de",
+          "name": "userName",
+          "type": "text",
+          "example": "zs"
+        },
+        {
+          "required": "1",
+          "_id": "5fe9872463bc1e160131b0dd",
+          "name": "userMail",
+          "type": "text",
+          "example": "lixin@126.com",
+          "desc": ""
+        }
+      ],
+      "desc": "<p>100001:表示新增失败<br>\n100002:表示已存在用户</p>\n",
+      "markdown": "100001:表示新增失败\n100002:表示已存在用户",
+      "req_body_type": "json",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+      "uid": 11,
+      "add_time": 1608103639,
+      "up_time": 1609140004,
+      "__v": 0,
+      "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"},\"description\":\"用户名\"},\"userMail\":{\"type\":\"string\",\"mock\":{\"mock\":\"@email\"},\"description\":\"用户邮件\"},\"userPhone\":{\"type\":\"integer\",\"description\":\"用户号码\"},\"userExe\":{\"type\":\"object\",\"properties\":{\"userCard\":{\"type\":\"string\",\"description\":\"用户身份证\"},\"userPaypal\":{\"type\":\"string\",\"description\":\"用户paypal号码\"},\"scoreList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"sname\":{\"type\":\"string\",\"description\":\"课程名称\"},\"score\":{\"type\":\"number\",\"description\":\"课程得分\"}},\"required\":[\"sname\",\"score\"],\"description\":\"得分\"},\"description\":\"得分列表\"},\"brotherList\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"description\":\"兄弟\"},\"description\":\"兄弟列表\"}},\"description\":\"用户拓展信息\",\"required\":[\"userCard\",\"userPaypal\",\"scoreList\",\"brotherList\"]}},\"required\":[\"userPhone\",\"userExe\"],\"description\":\"用户消息\"}",
+      "username": "admin"
+    }
+  ],
+  "catName": "拓展功能"
+}

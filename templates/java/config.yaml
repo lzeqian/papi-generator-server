@@ -1,0 +1,19 @@
+genernator:
+  - templateFile: "controller.template"
+    generateDir: "{{param.package}}.controller"
+    generateName: "{{param.catDescription}}Controller.java"
+    templateType: "type"
+  - templateFile: "dto.template"
+    generateDir: "{{param.package}}.dto"
+    generateName: "{{interface.dtoName}}.java"
+    templateType: "interface"
+    returnParam:
+      - methodName
+      - dtoName
+      - dtoType
+  - templateFile: "vo.template"
+    generateDir: "{{param.package}}.vo"
+    generateName: "{{interface.voName}}.java"
+    templateType: "interface"
+    returnParam:
+      - voName

@@ -1,0 +1,64 @@
+{
+  "templateGroupName": "java",
+  "catDescription": "Function",
+  "catName": "拓展功能",
+  "package": "com.jieztech",
+  "interfaceList": [
+    {
+      "query_path": {
+        "path": "/ums/user/search",
+        "params": []
+      },
+      "edit_uid": 11,
+      "status": "undone",
+      "type": "static",
+      "req_body_is_json_schema": true,
+      "res_body_is_json_schema": true,
+      "api_opened": false,
+      "index": 0,
+      "tag": [],
+      "_id": 35155,
+      "method": "GET",
+      "catid": 1891,
+      "title": "搜索用户信息",
+      "path": "/ums/user/search",
+      "project_id": 239,
+      "req_params": [],
+      "res_body_type": "json",
+      "uid": 11,
+      "add_time": 1608089533,
+      "up_time": 1608099583,
+      "req_query": [
+        {
+          "required": "1",
+          "_id": "5fd9a6ff63bc1ed1e53070af",
+          "name": "userName",
+          "example": "zs",
+          "desc": "用户名"
+        },
+        {
+          "required": "1",
+          "_id": "5fd9a6ff63bc1ef8d33070ae",
+          "name": "userEmail",
+          "example": "zs@126.com",
+          "desc": "邮箱"
+        }
+      ],
+      "req_headers": [
+        {
+          "required": "1",
+          "_id": "5fd9a6ff63bc1e7f3b3070b0",
+          "name": "Authorization",
+          "value": "56",
+          "example": "56"
+        }
+      ],
+      "req_body_form": [],
+      "__v": 0,
+      "desc": "",
+      "markdown": "",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"title\":\"用户名\"},\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"},\"title\":\"用户id\"},\"userEmail\":{\"type\":\"string\",\"title\":\"邮箱\"},\"phone\":{\"type\":\"string\",\"title\":\"手机号码\"},\"materList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"materName\":{\"type\":\"string\",\"title\":\"物品名称\",\"mock\":{\"mock\":\"@name()\"}},\"materCount\":{\"type\":\"integer\",\"title\":\"物品数量\",\"mock\":{\"mock\":\"@string(number,1,10)\"}}},\"required\":[\"materName\",\"materCount\"]},\"title\":\"物品列表\"}},\"required\":[\"materList\",\"userId\"]}}",
+      "username": "admin"
+    }
+  ]
+}
