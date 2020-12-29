@@ -1,7 +1,7 @@
 package {{param.package}}.controller;
 
-import {{param.package}}.dto;
-import {{param.package}}.vo;
+import {{param.package}}.dto.*;
+import {{param.package}}.vo.*;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +20,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+/**
+  {{param.catName}}
+ * @author {{param.userName}}<{{param.userEmail}}>
+ * @since JDK8
+ * Creation time：{{param.createDate}}
+ */
 @Slf4j
 @Api(tags = "{{param.catName}}")
 @RestController
@@ -79,7 +85,7 @@ public class {{param.catDescription}}Controller {
               {%-  set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t@ApiImplicitParam(name=\""+item.req_query[0].name+"\",value=\""+swaggerDesc+"\",required="+swaggerRequired+",dataType=\"String\",paramType=\"query\",example=\""+swaggerExample+"\")," %}
           {%- elif item.req_query|length>1 %}
               {%-  set ns.requestParam="@RequestParam "+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto "+ns.methodName+"Dto" %}
-              {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto")%}
+              {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
               {%- set jsuc=item|json("dtoType","req_query")%}
           {%- endif %}
       {%- endif %}
@@ -102,7 +108,7 @@ public class {{param.catDescription}}Controller {
       {%- if ((item.req_body_type=="form" and item.req_body_form and item.req_body_form|length>0)
         or (item.req_body_type=="json" and item.req_body_other and item.req_body_other|jsonParse and (item.req_body_other|jsonParse).properties|length>0 ))  %}
              {%- set ns.requestBodyParam="@RequestBody "+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto "+ns.methodName+"Dto" %}
-             {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto")%}
+             {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
              {%- set jsuc=item|json("dtoType","req_body")%}
       {%- endif %}
       {#- 构造返回值 #}
@@ -111,13 +117,13 @@ public class {{param.catDescription}}Controller {
         {%- if res_body.type=="object" %}
             {%- if res_body.properties|length>0 %}
                 {%-  set ns.returnBody=(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo" %}
-                {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo")%}
+                {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
             {%- else %}
                 {%-  set ns.returnBody="void" %}
             {%- endif %}
         {%- elif res_body.type=="array" %}
             {%-  set ns.returnBody="List<"+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo>" %}
-            {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo")%}
+            {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
         {%- else %}
             {%-  set responseType=res_body.type|typeToJavaType%}
             {%- if responseType %}

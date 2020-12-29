@@ -10,9 +10,15 @@ import org.springframework.web.multipart.*;
 {{- "\n"}}
 {#- 请求参数Dto #}
 {%- if interface.dtoType=="req_query" %}
+/**
+  {{param.catName}}
+ * @author {{param.userName}}<{{param.userEmail}}>
+ * @since JDK8
+ * Creation time：{{param.createDate}}
+ */
 @Data
-@ApiModel(value="{{interface.dtoName}}",description = "{{interface.title}}")
-public class {{interface.dtoName}}{
+@ApiModel(value="{{interface.dtoName|firstLower}}",description = "{{interface.title}}")
+public class {{interface.dtoName}}Dto{
 {%- for reqParam in interface.req_query%}
     @ApiModelProperty(value="{{reqParam.desc}}",required={{reqParam.required|boolToInt if "required" in reqParam else False}})
     private {{reqParam.type|typeToJavaType}} {{reqParam.name}};
@@ -21,9 +27,15 @@ public class {{interface.dtoName}}{
 {%- endif %}
 {%- if interface.dtoType=="req_body" %}
     {%- if interface.req_body_type=="form" %}
+/**
+  {{param.catName}}
+ * @author {{param.userName}}<{{param.userEmail}}>
+ * @since JDK8
+ * Creation time：{{param.createDate}}
+ */
 @Data
-@ApiModel(value="{{interface.dtoName}}",description = "{{interface.title}}")
-public class {{interface.dtoName}}{
+@ApiModel(value="{{interface.dtoName|firstLower}}",description = "{{interface.title}}")
+public class {{interface.dtoName}}Dto{
         {%- for reqParam in interface.req_body_form%}
     @ApiModelProperty(value="{{reqParam.desc}}",required={{reqParam.required|boolToInt if "required" in reqParam else False}})
     private {{reqParam.type|typeToJavaType}} {{reqParam.name}};
@@ -38,8 +50,14 @@ public class {{interface.dtoName}}{
         {%- for keyName in range(0,layer)%}
             {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
         {%- endfor %}
+        {{- tmpNs.outputProperty+"/**\n"}}
+        {{- tmpNs.outputProperty+"  "+json|dict("title","description")+"\n"}}
+        {{- tmpNs.outputProperty+" * @author "+param.userName+"<"+param.userEmail+">\n"}}
+        {{- tmpNs.outputProperty+" * @since JDK8\n"}}
+        {{- tmpNs.outputProperty+" * Creation time："+param.createDate+"\n"}}
+        {{- tmpNs.outputProperty+" */\n"}}
         {{- tmpNs.outputProperty+"@Data\n"}}
-        {{- tmpNs.outputProperty+"@ApiModel(value=\""+jsonKey|lower+"\",description = \""+json["description"]+"\")\n"}}
+        {{- tmpNs.outputProperty+"@ApiModel(value=\""+jsonKey|firstLower+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"\",description = \""+json|dict("title","description")+"\")\n"}}
         {{- tmpNs.outputProperty+("public " if layer==0 else "")+"class "+jsonKey|first|upper+jsonKey|substr(1)+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"Dto"+"{\n"}}
         {%- for keyName in json.properties.keys()%}
             {{- renderReqBody(keyName,json.properties[keyName],(keyName in json["required"] if "required" in json else False),layer+1)}}
@@ -47,7 +65,7 @@ public class {{interface.dtoName}}{
         {{- tmpNs.outputProperty+"}\n"}}
         {#- 生成对应字段 确定是否是数组 #}
         {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
             {{- tmpNs.outputProperty+"private List<"+jsonKey|first|upper+jsonKey|substr(1)+"ItemDto> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
         {%- else %}
             {%- if layer>0 %}
@@ -65,10 +83,10 @@ public class {{interface.dtoName}}{
             {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
         {%- endfor %}
         {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
             {{- tmpNs.outputProperty+"private List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
         {%- else %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json.description+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
             {{- tmpNs.outputProperty+"private "+json.type|typeToJavaType+" "+jsonKey+";\n"}}
         {%- endif %}
      {%- endif %}
@@ -78,8 +96,8 @@ public class {{interface.dtoName}}{
     {%- if interface.req_body_type=="json" %}
         {%- set tmpns = namespace(jsonData=interface.req_body_other|jsonParse) %}
         {%- if tmpns.jsonData.type=="array" %}
-            {%- set jsuc=tmpns.jsonData.items|json("description",interface.dtoName)%}
-            {{- renderReqBody(interface.dtoName,tmpns.jsonData.items,False,0) }}
+            {%- set jsuc=tmpns.jsonData["items"]|json("description",interface.dtoName)%}
+            {{- renderReqBody(interface.dtoName,tmpns.jsonData["items"],False,0) }}
         {%- elif tmpns.jsonData.type=="object" %}
             {{- renderReqBody(interface.dtoName,tmpns.jsonData,False,0) }}
         {%- endif %}

@@ -5,7 +5,7 @@ genernator:
     templateType: "type"
   - templateFile: "dto.template"
     generateDir: "{{param.package}}.dto"
-    generateName: "{{interface.dtoName}}.java"
+    generateName: "{{interface.dtoName}}Dto.java"
     templateType: "interface"
     returnParam:
       - methodName
@@ -13,7 +13,7 @@ genernator:
       - dtoType
   - templateFile: "vo.template"
     generateDir: "{{param.package}}.vo"
-    generateName: "{{interface.voName}}.java"
+    generateName: "{{interface.voName}}Vo.java"
     templateType: "interface"
     returnParam:
       - voName

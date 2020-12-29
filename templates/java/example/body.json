@@ -1,79 +1,62 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "userName": {
-      "type": "string",
-      "mock": {
-        "mock": "@name"
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "userName": {
+        "type": "string",
+        "title": "用户名"
       },
-      "description": "用户名"
-    },
-    "userMail": {
-      "type": "string",
-      "mock": {
-        "mock": "@email"
+      "userId": {
+        "type": "string",
+        "mock": {
+          "mock": "@increment()"
+        },
+        "title": "用户id"
       },
-      "description": "用户邮件"
-    },
-    "userPhone": {
-      "type": "integer",
-      "description": "用户号码"
-    },
-    "userExe": {
-      "type": "object",
-      "properties": {
-        "userCard": {
-          "type": "string",
-          "description": "用户身份证"
-        },
-        "userPaypal": {
-          "type": "string",
-          "description": "用户paypal号码"
-        },
-        "scoreList": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "sname": {
-                "type": "string",
-                "description": "课程名称"
-              },
-              "score": {
-                "type": "number",
-                "description": "课程得分"
+      "userEmail": {
+        "type": "string",
+        "title": "邮箱"
+      },
+      "phone": {
+        "type": "string",
+        "title": "手机号码"
+      },
+      "materList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "materName": {
+              "type": "string",
+              "title": "物品名称",
+              "mock": {
+                "mock": "@name()"
               }
             },
-            "required": [
-              "sname",
-              "score"
-            ],
-            "description": "得分"
+            "materCount": {
+              "type": "integer",
+              "title": "物品数量",
+              "mock": {
+                "mock": "@string(number,1,10)"
+              }
+            }
           },
-          "description": "得分列表"
+          "required": [
+            "materName",
+            "materCount"
+          ],
+          "description": "物料信息"
         },
-        "brotherList": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "description": "兄弟"
-          },
-          "description": "兄弟列表"
-        }
-      },
-      "description": "用户拓展信息",
-      "required": [
-        "userCard",
-        "userPaypal",
-        "scoreList",
-        "brotherList"
-      ]
-    }
+        "title": "物品列表"
+      }
+    },
+    "required": [
+      "materList",
+      "userId"
+    ],
+    "description": "用户信息"
   },
-  "required": [
-    "userPhone",
-    "userExe"
-  ],
-  "description": "用户消息"
+  "description": "用户列表"
 }

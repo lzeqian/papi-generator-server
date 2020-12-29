@@ -4,6 +4,7 @@ import shutil
 import urllib
 import uuid
 import zipfile
+import time
 
 import yaml
 from flask import Flask, after_this_request, Response, request, render_template, render_template_string
@@ -38,6 +39,7 @@ def renderTemplateData(jsonData):
     templateGroupName = jsonData["templateGroupName"]
     # 分类名称，生成具体的模板名称的拼接
     catDescription = jsonData["catDescription"]
+    jsonData["createDate"]=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
     # 对应生成的包结构
     package = jsonData["package"]
     # 对应生成需要生成的接口列表

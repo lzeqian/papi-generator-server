@@ -1,12 +1,11 @@
 {
   "templateGroupName": "java",
   "catDescription": "Function",
-  "catName": "拓展功能",
   "package": "com.jieztech",
   "interfaceList": [
     {
       "query_path": {
-        "path": "/ums/user/search",
+        "path": "/ums/api/v1/users",
         "params": []
       },
       "edit_uid": 11,
@@ -21,24 +20,24 @@
       "method": "GET",
       "catid": 1891,
       "title": "搜索用户信息",
-      "path": "/ums/user/search",
+      "path": "/ums/api/v1/users",
       "project_id": 239,
       "req_params": [],
       "res_body_type": "json",
       "uid": 11,
       "add_time": 1608089533,
-      "up_time": 1608099583,
+      "up_time": 1609230342,
       "req_query": [
         {
           "required": "1",
-          "_id": "5fd9a6ff63bc1ed1e53070af",
+          "_id": "5feae80663bc1e96c831c2f5",
           "name": "userName",
           "example": "zs",
           "desc": "用户名"
         },
         {
           "required": "1",
-          "_id": "5fd9a6ff63bc1ef8d33070ae",
+          "_id": "5feae80663bc1e539631c2f4",
           "name": "userEmail",
           "example": "zs@126.com",
           "desc": "邮箱"
@@ -47,7 +46,7 @@
       "req_headers": [
         {
           "required": "1",
-          "_id": "5fd9a6ff63bc1e7f3b3070b0",
+          "_id": "5feae80663bc1e2ed331c2f6",
           "name": "Authorization",
           "value": "56",
           "example": "56"
@@ -57,8 +56,11 @@
       "__v": 0,
       "desc": "",
       "markdown": "",
-      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"title\":\"用户名\"},\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"},\"title\":\"用户id\"},\"userEmail\":{\"type\":\"string\",\"title\":\"邮箱\"},\"phone\":{\"type\":\"string\",\"title\":\"手机号码\"},\"materList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"materName\":{\"type\":\"string\",\"title\":\"物品名称\",\"mock\":{\"mock\":\"@name()\"}},\"materCount\":{\"type\":\"integer\",\"title\":\"物品数量\",\"mock\":{\"mock\":\"@string(number,1,10)\"}}},\"required\":[\"materName\",\"materCount\"]},\"title\":\"物品列表\"}},\"required\":[\"materList\",\"userId\"]}}",
+      "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"title\":\"用户名\"},\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@increment()\"},\"title\":\"用户id\"},\"userEmail\":{\"type\":\"string\",\"title\":\"邮箱\"},\"phone\":{\"type\":\"string\",\"title\":\"手机号码\"},\"materList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"materName\":{\"type\":\"string\",\"title\":\"物品名称\",\"mock\":{\"mock\":\"@name()\"}},\"materCount\":{\"type\":\"integer\",\"title\":\"物品数量\",\"mock\":{\"mock\":\"@string(number,1,10)\"}}},\"required\":[\"materName\",\"materCount\"],\"description\":\"物料信息\"},\"title\":\"物品列表\"}},\"required\":[\"materList\",\"userId\"],\"description\":\"用户信息\"},\"description\":\"用户列表\"}",
       "username": "admin"
     }
-  ]
+  ],
+  "catName": "拓展功能",
+  "userEmail": "admin@jieztech.com",
+  "userName": "admin"
 }
