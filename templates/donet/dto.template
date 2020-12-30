@@ -11,7 +11,7 @@ namespace {{param.package}}.dto
    /// </summary>
    public class {{interface.dtoName}}Dto{
 {%- for reqParam in interface.req_query%}
-      public {{reqParam.type|typeToJavaType}} {{reqParam.name}} { get; set; };
+      public {{reqParam.type|typeToDonetType}} {{reqParam.name}} { get; set; };
 {%- endfor %}
    }
 {%- endif %}
@@ -58,12 +58,12 @@ namespace {{param.package}}.dto
             {{- tmpNs.outputProperty+"/// <summary>\n"}}
             {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
             {{- tmpNs.outputProperty+"/// </summary>\n"}}
-            {{- tmpNs.outputProperty+"public List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+" { get; set; }\n"}}
+            {{- tmpNs.outputProperty+"public List<"+json.type|typeToDonetType+"> "+jsonKey|first|lower+jsonKey|substr(1)+" { get; set; }\n"}}
         {%- else %}
             {{- tmpNs.outputProperty+"/// <summary>\n"}}
             {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
             {{- tmpNs.outputProperty+"/// </summary>\n"}}
-            {{- tmpNs.outputProperty+"public "+json.type|typeToJavaType+" "+jsonKey+"; { get; set; }\n"}}
+            {{- tmpNs.outputProperty+"public "+json.type|typeToDonetType+" "+jsonKey+"; { get; set; }\n"}}
         {%- endif %}
      {%- endif %}
 {%- endmacro %}

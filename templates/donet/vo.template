@@ -47,12 +47,12 @@ namespace {{param.package}}.vo
             {{- tmpNs.outputProperty+"/// <summary>\n"}}
             {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
             {{- tmpNs.outputProperty+"/// </summary>\n"}}
-            {{- tmpNs.outputProperty+"private List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
+            {{- tmpNs.outputProperty+"private List<"+json.type|typeToDonetType+"> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
         {%- else %}
             {{- tmpNs.outputProperty+"/// <summary>\n"}}
             {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
             {{- tmpNs.outputProperty+"/// </summary>\n"}}
-            {{- tmpNs.outputProperty+"private "+json.type|typeToJavaType+" "+jsonKey+";\n"}}
+            {{- tmpNs.outputProperty+"private "+json.type|typeToDonetType+" "+jsonKey+";\n"}}
         {%- endif %}
      {%- endif %}
 {%- endmacro %}

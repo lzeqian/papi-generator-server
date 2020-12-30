@@ -10,6 +10,7 @@ import yaml
 from flask import Flask, after_this_request, Response, request, render_template, render_template_string
 
 from filter.template.common import initCommonFilter
+from filter.template.dotnet import initDonetFilter
 from filter.template.java import initJavaFilter
 
 app = Flask(__name__)
@@ -166,6 +167,7 @@ if __name__ == '__main__':
     # 公共的模板过滤器注入
     initCommonFilter(app)
     initJavaFilter(app)
+    initDonetFilter(app)
     app.run(host="0.0.0.0", port=8888, threaded=True)
     app.DEBUG = True
     app.jinja_env.auto_reload = True

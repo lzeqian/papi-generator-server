@@ -108,7 +108,7 @@ namespace {{param.package}}.Controllers
                 {%-  set ns.returnBody="List<"+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo>" %}
                 {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
             {%- else %}
-                {%-  set responseType=res_body.type|typeToJavaType%}
+                {%-  set responseType=res_body.type|typeToDonetType%}
                 {%- if responseType %}
                     {%-  set ns.returnBody=responseType %}
                 {%- else %}
