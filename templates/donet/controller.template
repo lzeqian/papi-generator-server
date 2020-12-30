@@ -99,8 +99,15 @@ namespace {{param.package}}.Controllers
           {%- if res_body %}
             {%- if res_body.type=="object" %}
                 {%- if res_body.properties|length>0 %}
-                    {%-  set ns.returnBody=(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo" %}
-                    {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                    {#- 判断是否有分页 #}
+                    {%- if "pageIndex" in res_body.properties and "pageSize" in res_body.properties%}
+                        {%- set ns.returnBody="PagedList<"+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo>" %}
+                        {%- set jsuc=item|json("voPage","1")%}
+                        {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                    {%- else%}
+                        {%- set ns.returnBody=(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo" %}
+                        {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                    {%- endif %}
                 {%- else %}
                     {%-  set ns.returnBody="void" %}
                 {%- endif %}

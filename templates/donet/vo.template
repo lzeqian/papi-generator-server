@@ -62,8 +62,12 @@ namespace {{param.package}}.vo
         {%- if tmpns.jsonData.type=="array" %}
             {{- renderReqBody(interface.voName,tmpns.jsonData["items"],False,0) }}
         {%- elif tmpns.jsonData.type=="object" %}
-            {%- if tmpns.jsonData.properties.items()|length>0 %}
-                {{- renderReqBody(interface.voName,tmpns.jsonData,False,0) }}
+            {%- if "voPage" in interface %}
+                {{- renderReqBody(interface.voName,tmpns.jsonData["properties"]["dataSource"]["items"],False,0) }}
+            {%- else %}
+                {%- if tmpns.jsonData.properties.items()|length>0 %}
+                    {{- renderReqBody(interface.voName,tmpns.jsonData,False,0) }}
+                {%- endif %}
             {%- endif %}
         {%- endif %}
     {%- endif %}
