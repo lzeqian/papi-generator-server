@@ -1,0 +1,133 @@
+﻿﻿using APos.Stock.DataContract;
+using APos.Stock.DataContract.Monthly;
+using APos.Stock.IApplication.StockService;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using SDTFrame.Core;
+
+namespace {{param.package}}.Controllers
+{
+    {#-
+      比如传入路径是:/ums/api/v4/tpauth/,那么生成的注解路径就应该是/tpauth/supportType。
+      比如传入路径是:/ums/api/v1/users,比如类supportType注解路径是/api/v1 方法注解路径是/users
+    #}
+    {%- set globalNs = namespace(requestMapping="",requestMappingPath="",requestPath="",needPref="1") %}
+    {%- for item in param.interfaceList%}
+        {#- requestPath是去除掉微服务名字的路径，比如：/ums/api/v4/tpauth/supportType，执行后：/api/v4/tpauth/supportType #}
+        {%- set globalNs.requestPath=item.path|getRequestPath %}
+        {#- 判断是否所有的路径都是以/api/v开头，都是以/api/v开头，控制类头部需要添加@RequestMapping("/api/v") ,只要有一个接口不是/api/v开头就控制类不需要添加 @RequestMapping #}
+        {%- if not globalNs.requestPath|index("/api/v") == 0 %}
+           {#- 设置一个标识，标识至少有一个接口不是/api/v开头 #}
+           {%- set globalNs.needPref="0" %}
+        {%- endif %}
+    {%- endfor %}
+    /// <summary>
+    /// {{param.catName}}
+    /// </summary>
+    {#- 需要前缀则需要生成@RequestMapping("/api/v")注解字符串 #}
+    {%- if globalNs.needPref=="1"%}
+       {#- 请求路径去除掉/api/v前缀部分,如传入:/api/v4/tpauth/supportType,结果：4/tpauth/supportType #}
+       {%- set trimPrefixPath = globalNs.requestPath|lstrip("/api/v") %}
+       {#- 获取最终的前缀部分：/api/v4 #}
+       {%- set globalNs.requestMappingPath = "/api/v"+trimPrefixPath|substr(0,trimPrefixPath|index("/")) %}
+       {#- 生成最终的注解：@RequestMapping("/api/v4") #}
+       {%- set globalNs.requestMapping = "    [Route(\""+globalNs.requestMappingPath+"\")]" %}
+    {{- "\n"+globalNs.requestMapping}}
+    {%- endif %}
+    [EnableCors("AllowAllOrigin")]
+    [ApiController]
+    public class {{param.catDescription}}Controller : ControllerBase {
+    {%- for item in param.interfaceList%}
+          {#-
+                requestParam:通过get传入的参数，比如/user?userName=zs&userEmail=sdf@111.com,需要拼装成控制层的接收信息@RequestParam。
+                requestPathParam:通过路径传入的参数，比如/user/{userId},需要拼装成控制层的接收信息@PathVariable。
+                requestBodyParam:通过body传入的参数，比如/user body是json,需要拼装成控制层的接收信息 @RequestBody。
+                returnBody: 返回类型。
+                methodName: 方法名。
+           #}
+          {%- set ns = namespace(requestPath="",requestParam="",requestParamSwagger="",requestPathParam="",requestBodyParam="",returnBody="",methodName="",ifCreateSwaggerHead="0") %}
+          {%- set ns.requestPath=item.path|getRequestPath %}
+          {%- if globalNs.needPref=="1" %}
+                {%- set ns.requestPath=ns.requestPath|lstrip(globalNs.requestMappingPath) %}
+          {%- endif %}
+          {#-判断是否需要注释的参数#}
+          {%- if (item.req_query|length==1 or (item.req_params|length>0) ) %}
+                {%- set ns.ifCreateSwaggerHead="1" %}
+          {%- endif %}
+          {#- 构造方法名 #}
+          {%- set ns.methodName=item.method|getMethodName(ns.requestPath)%}
+          {%- set jsuc=item|json("methodName",ns.methodName)%}
+          {#- 构造get请求参数 #}
+          {%- if item.req_query %}
+              {%- if item.req_query|length==1 %}
+                  {%-  set swaggerDesc=item.req_query[0]|dict("desc") %}
+                  {%-  set ns.requestParam="[FromQuery] String "+item.req_query[0].name %}
+                  {%-  set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t///<param name=\""+item.req_query[0].name+"\">"+swaggerDesc+"</param>" %}
+              {%- elif item.req_query|length>1 %}
+                  {%-  set ns.requestParam="[FromQuery] "+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto "+ns.methodName+"Dto" %}
+                  {%-  set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t///<param name=\""+ns.methodName+"Dto"+"\"></param>" %}
+                  {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                  {%- set jsuc=item|json("dtoType","req_query")%}
+              {%- endif %}
+          {%- endif %}
+          {#- 构造路径请求参数 #}
+          {%- if item.req_params %}
+              {%- for pathVar in item.req_params%}
+                {%-  set ns.requestPathParam=(ns.requestPathParam+"," if ns.requestPathParam else "")+"[FromRoute] String "+pathVar.name %}
+                {%-  set swaggerDesc=pathVar|dict("desc") %} %}
+                {%-  set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t///<param name=\""+pathVar.name+"\">"+swaggerDesc+"</param>"  %}
+              {%- endfor %}
+          {%- endif %}
+          {%- if (item.req_body_type=="form" and item.req_body_form and item.req_body_form|length>0)%}
+             {%- set ns.requestBodyParam="[FromForm] IFormCollection formCollection" %}
+             {%- set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t///<param name=\"formCollection\"></param>"  %}
+          {%- endif %}
+          {#-
+             get请求没有req_body_type，其他请求都有
+             构造请求体参数(在生成dto时需要，同时生成swagger时需要)
+             如果req_body_type==form读取req_body_form
+             如果req_body_type==req_body_other
+          #}
+          {%- if (item.req_body_type=="json" and item.req_body_other and item.req_body_other|jsonParse and (item.req_body_other|jsonParse).properties|length>0 )  %}
+                 {%- set ns.requestBodyParam="[FromBody] "+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Dto "+ns.methodName+"Dto" %}
+                 {%- set ns.requestParamSwagger=ns.requestParamSwagger+"\n\t\t///<param name=\""+ns.methodName+"Dto"+"\">"+item.req_body_other|jsonParse|dict("title","description")+"</param>"  %}
+                 {%- set jsuc=item|json("dtoName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                 {%- set jsuc=item|json("dtoType","req_body")%}
+          {%- endif %}
+          {#- 构造返回值 #}
+          {%- set res_body=item.res_body|jsonParse  %}
+          {%- if res_body %}
+            {%- if res_body.type=="object" %}
+                {%- if res_body.properties|length>0 %}
+                    {%-  set ns.returnBody=(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo" %}
+                    {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+                {%- else %}
+                    {%-  set ns.returnBody="void" %}
+                {%- endif %}
+            {%- elif res_body.type=="array" %}
+                {%-  set ns.returnBody="List<"+(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1))+"Vo>" %}
+                {%- set jsuc=item|json("voName",(ns.methodName|substr(0,1)|upper+ns.methodName|substr(1)))%}
+            {%- else %}
+                {%-  set responseType=res_body.type|typeToJavaType%}
+                {%- if responseType %}
+                    {%-  set ns.returnBody=responseType %}
+                {%- else %}
+                    {%-  set ns.returnBody="void" %}
+                {%- endif %}
+            {%- endif %}
+          {%- endif %}
+        /// <summary>
+        /// {{item|dict("title","description")}}
+        /// </summary>
+        {{- ns.requestParamSwagger}}
+        /// <returns></returns>
+        [Http{{item.method|capitalize}}]
+        [Route("{{ns.requestPath}}")]
+        public {{ns.returnBody}} {{ns.methodName}}({{ns.requestParam}}{{(("," if ns.requestPathParam else "")+ns.requestPathParam) if ns.requestParam else ns.requestPathParam}}{{(("," if ns.requestBodyParam else "")+ns.requestBodyParam) if ns.requestParam or ns.requestPathParam  else ns.requestBodyParam}}) {
+            {%- if not ns.returnBody == "void" %}
+                return null;
+            {%- endif %}
+        }
+    {%- endfor %}
+    }
+}

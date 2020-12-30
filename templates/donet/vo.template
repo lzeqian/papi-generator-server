@@ -1,39 +1,35 @@
 {%- if "voName" in interface%}
-package {{param.package}}.vo;
-
-import io.swagger.annotations.*;
-import lombok.Data;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Map;
-import org.springframework.web.multipart.*;
+using System;
+using System.Collections.Generic;
+namespace {{param.package}}.vo
+{
 {{- "\n"}}
 {%- macro renderReqBody(jsonKey,json,required,layer) -%}
      {%- if json.type=="object" %}
         {#- 生成内部类 #}
-        {%- set tmpNs = namespace(outputProperty="") %}
+        {%- set tmpNs = namespace(outputProperty="  ") %}
         {%- for keyName in range(0,layer)%}
             {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
         {%- endfor %}
-        {{- tmpNs.outputProperty+"/**\n"}}
-        {{- tmpNs.outputProperty+"  "+json|dict("title","description")+"\n"}}
-        {{- tmpNs.outputProperty+" * @author "+param.userName+"<"+param.userEmail+">\n"}}
-        {{- tmpNs.outputProperty+" * @since JDK8\n"}}
-        {{- tmpNs.outputProperty+" * Creation time："+param.createDate+"\n"}}
-        {{- tmpNs.outputProperty+" */\n"}}
-        {{- tmpNs.outputProperty+"@Data\n"}}
-        {{- tmpNs.outputProperty+"@ApiModel(value=\""+jsonKey|firstLower+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"\",description = \""+json|dict("title","description")+"\")\n"}}
-        {{- tmpNs.outputProperty+("public " if layer==0 else "")+"class "+jsonKey|first|upper+jsonKey|substr(1)+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"Vo"+"{\n"}}
+        {{- tmpNs.outputProperty+"/// <summary>\n"}}
+        {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+        {{- tmpNs.outputProperty+"/// </summary>\n"}}
+        {{- tmpNs.outputProperty+"public class "+jsonKey|first|upper+jsonKey|substr(1)+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"Vo"+"{\n"}}
         {%- for keyName in json.properties.keys()%}
             {{- renderReqBody(keyName,json.properties[keyName],(keyName in json["required"] if "required" in json else False),layer+1)}}
         {%- endfor %}
         {{- tmpNs.outputProperty+"}\n"}}
         {#- 生成对应字段 确定是否是数组 #}
         {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
             {{- tmpNs.outputProperty+"private List<"+jsonKey|first|upper+jsonKey|substr(1)+"ItemVo> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
         {%- else %}
             {%- if layer>0 %}
+                {{- tmpNs.outputProperty+"/// <summary>\n"}}
+                {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+                {{- tmpNs.outputProperty+"/// </summary>\n"}}
                 {{- tmpNs.outputProperty+"private "+jsonKey|first|upper+jsonKey|substr(1)+"Vo "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
             {%- endif %}
         {%- endif %}
@@ -43,20 +39,23 @@ import org.springframework.web.multipart.*;
         {#- 直接将数组对应的是否必填向下传递 #}
         {{- renderReqBody(jsonKey,json["items"],required,layer) }}
      {%- else  %}
-        {%- set tmpNs = namespace(outputProperty="") %}
+        {%- set tmpNs = namespace(outputProperty="  ") %}
         {%- for keyName in range(0,layer)%}
             {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
         {%- endfor %}
         {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
             {{- tmpNs.outputProperty+"private List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+";\n"}}
         {%- else %}
-            {{- tmpNs.outputProperty+"@ApiModelProperty(value=\""+json|dict("title","description")+"\",required="+(required|btos|lower if required else "false")+")\n"}}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
             {{- tmpNs.outputProperty+"private "+json.type|typeToJavaType+" "+jsonKey+";\n"}}
         {%- endif %}
      {%- endif %}
 {%- endmacro %}
-
 {%- if interface.res_body %}
     {%- if interface.res_body_type=="json" %}
         {%- set tmpns = namespace(jsonData=interface.res_body|jsonParse) %}
@@ -69,5 +68,5 @@ import org.springframework.web.multipart.*;
         {%- endif %}
     {%- endif %}
 {%- endif %}
-
+}
 {%- endif %}

@@ -1,0 +1,83 @@
+{%- if "dtoName" in interface%}
+using System;
+using System.Collections.Generic;
+namespace {{param.package}}.dto
+{
+{{"\n"}}
+{#- 请求参数Dto #}
+{%- if interface.dtoType=="req_query" %}
+   /// <summary>
+   /// {{param.catName}}
+   /// </summary>
+   public class {{interface.dtoName}}Dto{
+{%- for reqParam in interface.req_query%}
+      public {{reqParam.type|typeToJavaType}} {{reqParam.name}} { get; set; };
+{%- endfor %}
+   }
+{%- endif %}
+{%- macro renderReqBody(jsonKey,json,required,layer) -%}
+     {%- if json.type=="object" %}
+        {#- 生成内部类 #}
+        {%- set tmpNs = namespace(outputProperty="   ") %}
+        {%- for keyName in range(0,layer)%}
+            {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
+        {%- endfor %}
+        {{- tmpNs.outputProperty+"/// <summary>\n"}}
+        {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+        {{- tmpNs.outputProperty+"/// </summary>\n"}}
+        {{- tmpNs.outputProperty+"public class "+jsonKey|first|upper+jsonKey|substr(1)+("Item" if "objectDefine" in json and json["objectDefine"]=="array" else "")+"Dto"+"{\n"}}
+        {%- for keyName in json.properties.keys()%}
+            {{- renderReqBody(keyName,json.properties[keyName],(keyName in json["required"] if "required" in json else False),layer+1)}}
+        {%- endfor %}
+        {{- tmpNs.outputProperty+"}\n"}}
+        {#- 生成对应字段 确定是否是数组 #}
+        {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
+            {{- tmpNs.outputProperty+"public List<"+jsonKey|first|upper+jsonKey|substr(1)+"ItemDto> "+jsonKey|first|lower+jsonKey|substr(1)+" { get; set; }\n"}}
+        {%- else %}
+            {%- if layer>0 %}
+                {{- tmpNs.outputProperty+"/// <summary>\n"}}
+                {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+                {{- tmpNs.outputProperty+"/// </summary>\n"}}
+                {{- tmpNs.outputProperty+"public "+jsonKey|first|upper+jsonKey|substr(1)+"Dto "+jsonKey|first|lower+jsonKey|substr(1)+" { get; set; }\n"}}
+            {%- endif %}
+        {%- endif %}
+
+     {%- elif json.type=="array" %}
+        {%- set jsuc=json["items"]|json("objectDefine","array")%}
+        {#- 直接将数组对应的是否必填向下传递 #}
+        {{- renderReqBody(jsonKey,json["items"],required,layer) }}
+     {%- else  %}
+        {%- set tmpNs = namespace(outputProperty="   ") %}
+        {%- for keyName in range(0,layer)%}
+            {%- set tmpNs.outputProperty=tmpNs.outputProperty+"   "%}
+        {%- endfor %}
+        {%- if "objectDefine" in json and json["objectDefine"]=="array" %}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
+            {{- tmpNs.outputProperty+"public List<"+json.type|typeToJavaType+"> "+jsonKey|first|lower+jsonKey|substr(1)+" { get; set; }\n"}}
+        {%- else %}
+            {{- tmpNs.outputProperty+"/// <summary>\n"}}
+            {{- tmpNs.outputProperty+"/// "+json|dict("title","description")+"\n"}}
+            {{- tmpNs.outputProperty+"/// </summary>\n"}}
+            {{- tmpNs.outputProperty+"public "+json.type|typeToJavaType+" "+jsonKey+"; { get; set; }\n"}}
+        {%- endif %}
+     {%- endif %}
+{%- endmacro %}
+
+{%- if interface.dtoType=="req_body" %}
+    {%- if interface.req_body_type=="json" %}
+        {%- set tmpns = namespace(jsonData=interface.req_body_other|jsonParse) %}
+        {%- if tmpns.jsonData.type=="array" %}
+            {%- set jsuc=tmpns.jsonData["items"]|json("description",interface.dtoName)%}
+            {{- renderReqBody(interface.dtoName,tmpns.jsonData["items"],False,0) }}
+        {%- elif tmpns.jsonData.type=="object" %}
+            {{- renderReqBody(interface.dtoName,tmpns.jsonData,False,0) }}
+        {%- endif %}
+    {%- endif %}
+{%- endif %}
+{%- endif %}
+}

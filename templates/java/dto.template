@@ -76,7 +76,7 @@ public class {{interface.dtoName}}Dto{
      {%- elif json.type=="array" %}
         {%- set jsuc=json["items"]|json("objectDefine","array")%}
         {#- 直接将数组对应的是否必填向下传递 #}
-        {{- renderReqBody(jsonKey,json["items"],required,layer+1) }}
+        {{- renderReqBody(jsonKey,json["items"],required,layer) }}
      {%- else  %}
         {%- set tmpNs = namespace(outputProperty="") %}
         {%- for keyName in range(0,layer)%}
