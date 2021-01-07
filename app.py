@@ -168,6 +168,6 @@ if __name__ == '__main__':
     initCommonFilter(app)
     initJavaFilter(app)
     initDonetFilter(app)
-    app.run(host="0.0.0.0", port=8888, threaded=True)
+    app.run(host="0.0.0.0", port=8808, threaded=True)
     app.DEBUG = True
     app.jinja_env.auto_reload = True

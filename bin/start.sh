@@ -7,4 +7,4 @@ cd ${currentShellDir}/../
 if [ ! -d ${currentShellDir}/../logs ];then
   mkdir -p ${currentShellDir}/../logs
 fi
-nohup python3 historymain.py >${currentShellDir}/../logs/catalina.out 2>&1 & echo $! >> ${currentShellDir}/pgs.pid
+nohup python3 app.py >${currentShellDir}/../logs/catalina.out 2>&1 & echo $! >> ${currentShellDir}/pgs.pid
